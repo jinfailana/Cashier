@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const PickupHeader = () => {
+const HistoryHeader = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -12,11 +12,11 @@ const PickupHeader = () => {
   };
 
   return (
-    <div className="bg-white border-b px-6 py-4">
+    <header className="bg-white border-b px-6 py-4">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-[#8B4513] text-xl font-semibold mb-1">Pick-up</h1>
-          <p className="text-sm text-gray-500">Track and manage orders for customer pick-up.</p>
+          <h1 className="text-[#8B4513] text-xl font-semibold mb-1">History</h1>
+          <p className="text-sm text-gray-500">View all transactions</p>
         </div>
 
         {/* User Profile */}
@@ -73,8 +73,8 @@ const PickupHeader = () => {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
-export default PickupHeader; 
+export default HistoryHeader; 

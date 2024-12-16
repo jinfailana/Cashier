@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
+import HistoryHeader from '../components/HistoryHeader';
 
 const DateRangeDropdown = ({ isOpen, onClose, onSelect }) => {
   const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
@@ -136,126 +137,122 @@ const History = () => {
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        {/* Main Header */}
-        <div className="bg-white p-4 shadow-sm">
-          <h1 className="text-base font-medium text-[#8B4513]">History</h1>
-          <p className="text-xs text-gray-500">Reviewing past transactions and order history</p>
-        </div>
-
+        <HistoryHeader />
+        
         {/* Content Area */}
-          <div>
-            <div className="p-6">
-              {/* Invoices Header and Controls */}
-              <div className="mb-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-medium text-gray-800">Invoices</h2>
-                  
-                  {/* Export Button */}
-                  <button className="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-200 rounded-md hover:border-gray-300">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    Export as PDF
-                  </button>
+        <div>
+          <div className="p-6">
+            {/* Invoices Header and Controls */}
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-medium text-gray-800">Invoices</h2>
+                
+                {/* Export Button */}
+                <button className="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-200 rounded-md hover:border-gray-300">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Export as PDF
+                </button>
+              </div>
+
+              {/* Metrics and Controls */}
+              <div className="flex justify-between items-center mb-6">
+                {/* Metrics */}
+                <div className="flex gap-4">
+                  <div className="bg-white px-4 py-2 rounded border border-gray-100">
+                    <span className="text-sm text-gray-600">Total Sales : </span>
+                    <span className="text-sm font-medium">₱{totalSales}</span>
+                  </div>
+                  <div className="bg-white px-4 py-2 rounded border border-gray-100">
+                    <span className="text-sm text-gray-600">Total Transactions : </span>
+                    <span className="text-sm font-medium">{totalTransactions}</span>
+                  </div>
                 </div>
 
-                {/* Metrics and Controls */}
-                <div className="flex justify-between items-center mb-6">
-                  {/* Metrics */}
-                  <div className="flex gap-4">
-                    <div className="bg-white px-4 py-2 rounded border border-gray-100">
-                      <span className="text-sm text-gray-600">Total Sales : </span>
-                      <span className="text-sm font-medium">₱{totalSales}</span>
-                    </div>
-                    <div className="bg-white px-4 py-2 rounded border border-gray-100">
-                      <span className="text-sm text-gray-600">Total Transactions : </span>
-                      <span className="text-sm font-medium">{totalTransactions}</span>
-                    </div>
+                {/* Date Range and Filter */}
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <button 
+                      onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                      className="flex items-center gap-2 px-4 py-2 bg-white rounded-md border border-gray-200"
+                    >
+                      <svg className="text-gray-500" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </svg>
+                      <span className="text-sm text-gray-600">{dateRange}</span>
+                    </button>
+                    <DateRangeDropdown 
+                      isOpen={isCalendarOpen}
+                      onClose={() => setIsCalendarOpen(false)}
+                      onSelect={(range) => {
+                        if (range.start && range.end) {
+                          setDateRange(`${range.start.toLocaleDateString()} - ${range.end.toLocaleDateString()}`);
+                        }
+                      }}
+                    />
                   </div>
 
-                  {/* Date Range and Filter */}
-                  <div className="flex items-center gap-4">
-                    <div className="relative">
-                      <button 
-                        onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                        className="flex items-center gap-2 px-4 py-2 bg-white rounded-md border border-gray-200"
-                      >
-                        <svg className="text-gray-500" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                          <line x1="16" y1="2" x2="16" y2="6" />
-                          <line x1="8" y1="2" x2="8" y2="6" />
-                          <line x1="3" y1="10" x2="21" y2="10" />
-                        </svg>
-                        <span className="text-sm text-gray-600">{dateRange}</span>
-                      </button>
-                      <DateRangeDropdown 
-                        isOpen={isCalendarOpen}
-                        onClose={() => setIsCalendarOpen(false)}
-                        onSelect={(range) => {
-                          if (range.start && range.end) {
-                            setDateRange(`${range.start.toLocaleDateString()} - ${range.end.toLocaleDateString()}`);
-                          }
-                        }}
-                      />
-                    </div>
-
-                    <div className="relative inline-block">
-                      <button 
-                        onClick={() => setIsFilterOpen(!isFilterOpen)}
-                        className="flex items-center gap-2 px-3 py-1.5 text-gray-600 border border-gray-200 rounded-md hover:border-gray-300"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                        </svg>
-                        <span className="text-sm">Filter</span>
-                      </button>
-                      <FilterDropdown 
-                        isOpen={isFilterOpen} 
-                        onClose={() => setIsFilterOpen(false)}
-                      />
-                    </div>
+                  <div className="relative inline-block">
+                    <button 
+                      onClick={() => setIsFilterOpen(!isFilterOpen)}
+                      className="flex items-center gap-2 px-3 py-1.5 text-gray-600 border border-gray-200 rounded-md hover:border-gray-300"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                      </svg>
+                      <span className="text-sm">Filter</span>
+                    </button>
+                    <FilterDropdown 
+                      isOpen={isFilterOpen} 
+                      onClose={() => setIsFilterOpen(false)}
+                    />
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Table Section */}
-              <div className="border rounded-lg overflow-hidden">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr className="bg-gray-50">
-                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Invoice no.</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Total Items</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Total Price</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Order Method</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Date</th>
-                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Action</th>
+            {/* Table Section */}
+            <div className="border rounded-lg overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-50">
+                  <tr className="bg-gray-50">
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Invoice no.</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Total Items</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Total Price</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Order Method</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Date</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {transactions.map((transaction) => (
+                    <tr key={transaction.invoiceNo} className="border-t">
+                      <td className="px-4 py-2 text-sm text-gray-600">{transaction.invoiceNo}</td>
+                      <td className="px-4 py-2 text-sm text-gray-600">{transaction.totalItems}</td>
+                      <td className="px-4 py-2 text-sm text-gray-600">₱{transaction.totalPrice}</td>
+                      <td className="px-4 py-2 text-sm text-gray-600">{transaction.orderMethod}</td>
+                      <td className="px-4 py-2 text-sm text-gray-600">{transaction.date}</td>
+                      <td className="px-4 py-2">
+                        <button 
+                          className="text-sm text-gray-600 border border-gray-200 rounded-md px-3 py-1 hover:border-gray-300"
+                          onClick={() => handleViewDetails(transaction.invoiceNo)}
+                        >
+                          View Details
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {transactions.map((transaction) => (
-                      <tr key={transaction.invoiceNo} className="border-t">
-                        <td className="px-4 py-2 text-sm text-gray-600">{transaction.invoiceNo}</td>
-                        <td className="px-4 py-2 text-sm text-gray-600">{transaction.totalItems}</td>
-                        <td className="px-4 py-2 text-sm text-gray-600">₱{transaction.totalPrice}</td>
-                        <td className="px-4 py-2 text-sm text-gray-600">{transaction.orderMethod}</td>
-                        <td className="px-4 py-2 text-sm text-gray-600">{transaction.date}</td>
-                        <td className="px-4 py-2">
-                          <button 
-                            className="text-sm text-gray-600 border border-gray-200 rounded-md px-3 py-1 hover:border-gray-300"
-                            onClick={() => handleViewDetails(transaction.invoiceNo)}
-                          >
-                            View Details
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

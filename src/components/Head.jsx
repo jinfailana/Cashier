@@ -15,7 +15,7 @@ const Head = () => {
     <div className="bg-white border-b px-6 py-4">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-[#8B4513] text-xl font-medium mb-1">POS</h1>
+          <h1 className="text-[#8B4513] text-xl font-semibold mb-1">POS</h1>
           <p className="text-sm text-gray-500">Manage orders and process payments.</p>
         </div>
 
